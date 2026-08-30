@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState } from 'react';
 import { motion } from 'motion/react';
 import {
   Github,
@@ -6,56 +6,27 @@ import {
   Mail,
   ArrowRight,
   Send,
-  Terminal,
-  Camera,
-  Code2
+  User
 } from 'lucide-react';
 import { personalInfo } from '../data/portfolioData';
-import { getStoredProfilePhoto, saveProfilePhoto } from '../utils/photoStorage';
+
+// Google Drive multi-source image candidates for high compatibility across all networks & browsers
+const DRIVE_PHOTO_SOURCES = [
+  "https://lh3.googleusercontent.com/d/1XmgKyHb9y04pp2h6HuC2Pc5rdM8BxOXA",
+  "https://drive.google.com/thumbnail?id=1XmgKyHb9y04pp2h6HuC2Pc5rdM8BxOXA&sz=w1000",
+  "https://drive.usercontent.google.com/download?id=1XmgKyHb9y04pp2h6HuC2Pc5rdM8BxOXA&export=view",
+  "./profile.jpg"
+];
 
 export const Hero: React.FC = () => {
-  const [profilePhoto, setProfilePhoto] = useState<string>(() =>
-    getStoredProfilePhoto(personalInfo.profilePhoto)
-  );
-  const [isHovered, setIsHovered] = useState(false);
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [sourceIndex, setSourceIndex] = useState(0);
+  const [imageError, setImageError] = useState(false);
 
-  useEffect(() => {
-    const handlePhotoUpdate = () => {
-      setProfilePhoto(getStoredProfilePhoto(personalInfo.profilePhoto));
-    };
-    window.addEventListener('portfolio-photo-updated', handlePhotoUpdate);
-    return () => window.removeEventListener('portfolio-photo-updated', handlePhotoUpdate);
-  }, []);
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const result = event.target?.result as string;
-        if (result) {
-          saveProfilePhoto(result);
-          setProfilePhoto(result);
-        }
-      };
-      reader.readAsDataURL(file);
-    }
-  };
-
-  const handleDrop = (e: React.DragEvent) => {
-    e.preventDefault();
-    const file = e.dataTransfer.files?.[0];
-    if (file && file.type.startsWith('image/')) {
-      const reader = new FileReader();
-      reader.onload = (event) => {
-        const result = event.target?.result as string;
-        if (result) {
-          saveProfilePhoto(result);
-          setProfilePhoto(result);
-        }
-      };
-      reader.readAsDataURL(file);
+  const handleImageError = () => {
+    if (sourceIndex < DRIVE_PHOTO_SOURCES.length - 1) {
+      setSourceIndex((prev) => prev + 1);
+    } else {
+      setImageError(true);
     }
   };
 
@@ -72,7 +43,7 @@ export const Hero: React.FC = () => {
       id="home"
       className="relative pt-32 sm:pt-36 pb-20 sm:pb-28 flex items-center justify-center overflow-hidden"
     >
-      {/* Subtle Background Glow */}
+      {/* Background Subtle Glow */}
       <div className="absolute top-1/3 left-1/4 w-[500px] h-[500px] bg-blue-600/10 rounded-full blur-3xl pointer-events-none -z-10" />
 
       <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 w-full relative z-10">
@@ -95,54 +66,37 @@ export const Hero: React.FC = () => {
           {/* Profile Photo & Headline Block */}
           <div className="flex flex-col sm:flex-row sm:items-center gap-5 sm:gap-6 pt-1">
             
-            {/* Squircle Photo Avatar */}
-            <div
-              onDragOver={(e) => e.preventDefault()}
-              onDrop={handleDrop}
-              onMouseEnter={() => setIsHovered(true)}
-              onMouseLeave={() => setIsHovered(false)}
-              className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-2xl p-1 bg-gradient-to-tr from-blue-600 via-sky-500 to-cyan-400 shadow-xl shadow-blue-600/25 flex-shrink-0 group cursor-pointer"
-              onClick={() => fileInputRef.current?.click()}
-              title="Click or drag to change profile photo"
-            >
-              <div className="w-full h-full rounded-[14px] overflow-hidden bg-slate-900 relative">
-                <img
-                  src={profilePhoto}
-                  alt="Aryan Kr. - Profile"
-                  referrerPolicy="no-referrer"
-                  className="w-full h-full object-cover object-center filter contrast-[1.03]"
-                />
-                
-                {/* Hover overlay with camera icon */}
-                <div
-                  className={`absolute inset-0 bg-black/60 backdrop-blur-[2px] flex items-center justify-center transition-opacity duration-200 ${
-                    isHovered ? 'opacity-100' : 'opacity-0'
-                  }`}
-                >
-                  <Camera className="w-5 h-5 text-white" />
-                </div>
+            {/* Squircle Photo Avatar - Fixed Universal Display */}
+            <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-2xl p-1 bg-gradient-to-tr from-blue-600 via-sky-500 to-cyan-400 shadow-xl shadow-blue-600/25 flex-shrink-0">
+              <div className="w-full h-full rounded-[14px] overflow-hidden bg-slate-900 flex items-center justify-center relative">
+                {!imageError ? (
+                  <img
+                    src={DRIVE_PHOTO_SOURCES[sourceIndex]}
+                    alt={`${personalInfo.name} - Profile Photo`}
+                    loading="eager"
+                    crossOrigin="anonymous"
+                    referrerPolicy="no-referrer"
+                    onError={handleImageError}
+                    className="w-full h-full object-cover object-center filter contrast-[1.03]"
+                  />
+                ) : (
+                  <div className="w-full h-full bg-slate-800 flex flex-col items-center justify-center text-slate-400">
+                    <User className="w-8 h-8 text-blue-400" />
+                    <span className="text-[10px] font-mono text-slate-400 mt-1">Aryan Kr</span>
+                  </div>
+                )}
               </div>
 
               {/* Online Green Beacon Badge at bottom right of avatar */}
               <div className="absolute -bottom-1 -right-1 w-5 h-5 rounded-full bg-[#050505] flex items-center justify-center">
                 <div className="w-3.5 h-3.5 rounded-full bg-emerald-400 border-2 border-[#050505]" />
               </div>
-
-              {/* Hidden File Input */}
-              <input
-                ref={fileInputRef}
-                type="file"
-                accept="image/*"
-                onChange={handleFileChange}
-                className="hidden"
-                id="hero-profile-photo-input"
-              />
             </div>
 
             {/* Headline and Subtitle */}
             <div className="space-y-1.5">
               <h1 className="text-3xl sm:text-4xl md:text-5xl font-extrabold text-white tracking-tight flex items-baseline gap-1">
-                <span>Hi, I&apos;m Aryan Kr</span>
+                <span>Hi, I&apos;m {personalInfo.name}</span>
                 <span className="text-blue-500 font-black">.</span>
               </h1>
               <p className="text-base sm:text-lg md:text-xl font-medium text-slate-200">
