@@ -23,7 +23,7 @@ export const personalInfo: PersonalInfo = {
   email: "aryanramgarh41@gmail.com",
   github: "https://github.com/aryan-kr02",
   linkedin: "https://www.linkedin.com/in/aryannnkumar",
-  resumeUrl: "https://drive.google.com/file/d/1MV3mLjwbF7SNiJ1NIGGt6QtbVWi-82QO/view?usp=sharing",
+  resumeUrl: "https://drive.google.com/file/d/13bM31HcKvG3TMUCH34wlXfivq0fGzcbp/view?usp=sharing",
   profilePhoto: "https://lh3.googleusercontent.com/d/1XmgKyHb9y04pp2h6HuC2Pc5rdM8BxOXA",
   careerGoal: "My goal is to build simple, reliable, and user-friendly software that solves real-world problems while continually growing as a developer."
 };

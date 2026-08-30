@@ -115,7 +115,7 @@ export const Navbar: React.FC = () => {
             {/* Resume Button */}
             <a
               id="nav-resume-btn"
-              href={personalInfo.resumeUrl || "https://drive.google.com/file/d/1MV3mLjwbF7SNiJ1NIGGt6QtbVWi-82QO/view?usp=sharing"}
+              href={personalInfo.resumeUrl || "https://drive.google.com/file/d/13bM31HcKvG3TMUCH34wlXfivq0fGzcbp/view?usp=sharing"}
               target="_blank"
               rel="noopener noreferrer"
               className="inline-flex items-center gap-2 px-4 py-2 text-xs font-semibold rounded-full bg-white/5 hover:bg-white/10 text-slate-200 hover:text-white border border-white/15 hover:border-white/30 transition-all duration-200 shadow-sm cursor-pointer"
@@ -140,7 +140,7 @@ export const Navbar: React.FC = () => {
           <div className="flex sm:hidden items-center gap-2">
             <a
               id="mobile-nav-resume-mini-btn"
-              href={personalInfo.resumeUrl || "https://drive.google.com/file/d/1MV3mLjwbF7SNiJ1NIGGt6QtbVWi-82QO/view?usp=sharing"}
+              href={personalInfo.resumeUrl || "https://drive.google.com/file/d/13bM31HcKvG3TMUCH34wlXfivq0fGzcbp/view?usp=sharing"}
               target="_blank"
               rel="noopener noreferrer"
               className="px-3 py-1.5 text-xs font-semibold rounded-full bg-white/5 text-slate-200 border border-white/15 flex items-center gap-1"
