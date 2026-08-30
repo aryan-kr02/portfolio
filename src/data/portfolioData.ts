@@ -23,7 +23,7 @@ export const personalInfo: PersonalInfo = {
   email: "aryanramgarh41@gmail.com",
   github: "https://github.com/aryan-kr02",
   linkedin: "https://www.linkedin.com/in/aryannnkumar",
-  resumeUrl: "https://drive.google.com/file/d/1OxN9BZx5QxL3HQHOn1hD2VF69DthWHzf/view?usp=sharing",
+  resumeUrl: "https://drive.google.com/file/d/1djM_5yoe9g8UwD67mh_T_7t5S0Iz9QBO/view?usp=sharing",
   profilePhoto: "https://lh3.googleusercontent.com/d/1XmgKyHb9y04pp2h6HuC2Pc5rdM8BxOXA",
   careerGoal: "My goal is to build simple, reliable, and user-friendly software that solves real-world problems while continually growing as a developer."
 };
@@ -146,7 +146,7 @@ export const projects: Project[] = [
       "Student review and rating system for transparent feedback"
     ],
     technologies: ["React", "Node.js", "Tailwind CSS", "JavaScript"],
-    githubUrl: "https://github.com/aryan-kr02",
+    githubUrl: "https://github.com/aryan-kr02/PG-Finder",
     featured: true,
     inProgress: true,
     statusText: "in Progress",
